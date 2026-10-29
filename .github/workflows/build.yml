@@ -9,20 +9,12 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libffi-dev libssl-dev libtinfo5 libncurses5 lld
-          pip install buildozer cython==0.29.33
       - name: Build APK
-        run: |
-          yes | sdkmanager --licenses || true
-          buildozer android debug
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: digimezzo/buildozer-action@v1
+        with:
+          buildozer_version: stable
+          command: buildozer android debug
+      - uses: actions/upload-artifact@v4
         with:
           name: Pakulla-APK
           path: bin/*.apk
